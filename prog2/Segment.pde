@@ -1,16 +1,15 @@
-class Segment{
-  int leftX;
-  int rightX;
+public class Segment {
+  int x1;
+  int x2;
   int y;
 
-  Segment(int x1, int x2, int y){
-    leftX = x1;
-    rightX = x2;
+  public Segment(int x1, int x2, int y) {
+    this.x1 = x1;
+    this.x2 = x2;
     this.y = y;
   }
 
-
-  void display(){
+  public void display() {
     stroke(255, 255, 255);
     strokeWeight(2);
     line(leftX, y, rightX, y);
