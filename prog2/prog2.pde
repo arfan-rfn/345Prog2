@@ -8,16 +8,14 @@
 void setup()  {
   size(800, 800);
   smooth();
-  println("Select default input file or close the window to select default file './doIntersect.in'");
+  println("Select default input file or close the window to select default file './input.in'");
 }
-
 
 // refresh the window 
 void draw(){
   stroke(255);
   fill(255);
   rect(0, 0, 800, 800);
-
 }
 
 // take a mouse event
