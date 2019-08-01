@@ -9,20 +9,25 @@ boolean reportMode = false;
 boolean countMode = false;
 boolean firstQueryPoint = false;
 boolean secQueryPoint = true;
+
+int h = 0;
+
 int queryX1 = 0;
 int queryY1 = 0;
 int queryX2 = 0;
 int queryY2 = 0;
 
+String customMsg = "";
+
 ArrayList<Segment> segments = new ArrayList();
 
 // setup the whole page and ask for input file
 void setup(){
-  size(800, 800);
+  size(520, 650);
   smooth();
   drawSegmentsFromFile("./inputFiles/random_segments.in");
-  
   println("Select default input file or close the window to select default file './doIntersect.in'");
+  println("h = " + h);
 } 
 
 
@@ -30,10 +35,11 @@ void setup(){
 void draw(){
   stroke(255);
   fill(255);
-  rect(0, 0, 800, 800);
+  rect(0, 0, 520, 650);
   
+  // draw each segment
   for(Segment seg: segments) {
-    seg.highlight();
+    //seg.highlight();
     seg.display();
   }
   
@@ -53,6 +59,7 @@ void draw(){
     }
   }
 
+  showStatus();
 }
 
 // take a mouse event
@@ -74,6 +81,7 @@ void mousePressed(){
       secQueryPoint = true;
       queryX2 = mouseX;
       queryY2 = mouseY;
+      customMsg = "";
     }
   }
 }
@@ -91,6 +99,11 @@ void keyPressed(){
   if(key == 'r' || key == 'R'){
       reportMode = !reportMode;
       resetReport();
+      if(reportMode){
+        customMsg = "Draw a rectangel from the mouse point";
+      }else{
+        customMsg = "";
+      }
       println("Report Mode: "+ reportMode);
   }
   if(key == 'c' || key == 'C'){
@@ -105,4 +118,14 @@ void resetReport(){
     firstQueryPoint = false;
     secQueryPoint = true;
   }
+}
+
+void showStatus(){
+  fill(#C68C1E);
+  text(customMsg, 30, height - 100);
+  fill(0, 102, 153);
+  text("Animation Mode : " + animationMode, 30, height-80);
+  text("Insert Mode : " + insertMode, 30, height-60);
+  text("Report Mode : " + reportMode, 30, height-40);
+  text("Count Mode : " + countMode, 30, height-20);
 }
