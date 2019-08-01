@@ -8,11 +8,15 @@ public class Rectangle {
         this.ymax = ymax;
     }
 
-    public boolean contains(float x) {
-        /**
-         * Fill this!!!
-         */
-        return true;
+    boolean containsPoint(PVector point) {
+        if(point.x>=xmin && point.x<xmax && point.y>=ymin && point.y<ymax)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean existsInRegion() {
+    
     }
 
     public void highlight() {
