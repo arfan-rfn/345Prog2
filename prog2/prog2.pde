@@ -10,7 +10,7 @@ boolean countMode = false;
 boolean firstQueryPoint = false;
 boolean secQueryPoint = true;
 
-int h = 0;
+int pixels = 0;
 
 int queryX1 = 0;
 int queryY1 = 0;
@@ -19,15 +19,25 @@ int queryY2 = 0;
 
 String customMsg = "";
 
+QuadTree tree;
+
 ArrayList<Segment> segments = new ArrayList();
+
+ArrayList<Rectangle> rectangles = new ArrayList();
 
 // setup the whole page and ask for input file
 void setup(){
   size(520, 650);
   smooth();
   drawSegmentsFromFile("./inputFiles/random_segments.in");
+  
+  tree = new QuadTree(0, 512, 0, 512, pixels);
+  for(Segment seg: segments) {
+    tree.insert(seg);
+  }
   println("Select default input file or close the window to select default file './doIntersect.in'");
-  println("h = " + h);
+  println("h = " + rectangles.size());
+  
 } 
 
 
@@ -37,11 +47,19 @@ void draw(){
   fill(255);
   rect(0, 0, 520, 650);
   
+  for(Rectangle rect: rectangles){
+    rect.highlight();
+    //println(rect);
+    //stroke(#D82A38);
+    //strokeWeight(2);
+    //rect(rect.xMin, rect.yMin, rect.xMax - rect.xMin, rect.yMax - rect.yMin);
+  }
   // draw each segment
   for(Segment seg: segments) {
     //seg.highlight();
     seg.display();
   }
+    
   
   if(reportMode){
     if(!firstQueryPoint){
@@ -69,6 +87,7 @@ void mousePressed(){
   if(insertMode){
     Segment tempSeg = new Segment(mouseX, mouseX, mouseY);
     segments.add(tempSeg);
+    tree.insert(tempSeg);
   }
   
   if(reportMode){

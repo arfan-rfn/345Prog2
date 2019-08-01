@@ -8,7 +8,7 @@ void drawSegmentsFromFile(String filename) {
       read = createReader(filename);
       
       if ((str = read.readLine()) != null) {
-        h = Integer.parseInt(str);
+        pixels = Integer.parseInt(str);
       }
 
       while ((str = read.readLine()) != null) {
