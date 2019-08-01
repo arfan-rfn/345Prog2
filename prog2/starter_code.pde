@@ -16,7 +16,7 @@ void drawSegmentsFromFile(String filename) {
 
 
         String[] words = str.split(",");
-        println("value of line counter is"+lineCounter);
+        println("value of line counter is "+lineCounter);
 
         println("size of words is :"+words.length);
         println(words);
@@ -30,7 +30,7 @@ void drawSegmentsFromFile(String filename) {
           int segY1=Integer.parseInt(words[2]);
           
           Segment tempSeg = new Segment(segX1, segX2, segY1);
-
+          segments.add(tempSeg);
           //HINT: Add segment to QT here
         }
       }
