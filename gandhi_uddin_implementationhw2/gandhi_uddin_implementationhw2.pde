@@ -2,6 +2,7 @@
 // Mayank Gandhi
 // CSc 345
 // Prog #2
+// implementation of Quad Tree with segments, and query on rectange
 
 boolean animationMode = true;
 boolean insertMode = false;
@@ -11,6 +12,7 @@ boolean firstQueryPoint = false;
 boolean secQueryPoint = true;
 
 int pixels = 0;
+int countEnd = 0;
 
 int queryX1 = 0;
 int queryY1 = 0;
@@ -30,14 +32,16 @@ void setup(){
   size(520, 650);
   smooth();
   drawSegmentsFromFile("./inputFiles/random_segments.in");
-  
+  showStatus();
   tree = new QuadTree(0, 512, 0, 512, pixels);
   for(Segment seg: segments) {
     tree.insert(seg);
   }
-  println("Select default input file or close the window to select default file './doIntersect.in'");
-  println("h = " + rectangles.size());
+  //println("Select default input file or close the window to select default file './doIntersect.in'");
+  //println("h = " + rectangles.size());
+  //println("rects = " + rectangles);
   
+  //println(tree.root.topRight().getSegment().size());
 } 
 
 
@@ -47,21 +51,19 @@ void draw(){
   fill(255);
   rect(0, 0, 520, 650);
   
-  for(Rectangle rect: rectangles){
-    rect.highlight();
-    //println(rect);
-    //stroke(#D82A38);
-    //strokeWeight(2);
-    //rect(rect.xMin, rect.yMin, rect.xMax - rect.xMin, rect.yMax - rect.yMin);
-  }
-  // draw each segment
+   //draw each segment
   for(Segment seg: segments) {
-    //seg.highlight();
     seg.display();
   }
-    
   
-  if(reportMode){
+  for(Rectangle rect: rectangles){
+    if(!animationMode){
+      rect.unhighlight();
+    }
+    rect.display();
+  } 
+  
+  if(reportMode || countMode){
     if(!firstQueryPoint){
       fill(#27495F);
       ellipse(mouseX,mouseY, 10, 10);
@@ -82,12 +84,14 @@ void draw(){
 
 // take a mouse event
 void mousePressed(){
-  println(mouseX + ", " + mouseY);
+  //println(mouseX + ", " + mouseY);
   
   if(insertMode){
-    Segment tempSeg = new Segment(mouseX, mouseX, mouseY);
-    segments.add(tempSeg);
-    tree.insert(tempSeg);
+    if(mouseX <= 512 && mouseY <= 512){
+      Segment tempSeg = new Segment(mouseX, mouseX, mouseY);
+      segments.add(tempSeg);
+      tree.insert(tempSeg);
+    }
   }
   
   if(reportMode){
@@ -97,11 +101,29 @@ void mousePressed(){
       queryX1 = mouseX;
       queryY1 = mouseY;
     }else{
+      firstQueryPoint = false;
       secQueryPoint = true;
       queryX2 = mouseX;
       queryY2 = mouseY;
+      tree.query(new Rectangle(queryX1, queryX2, queryY1, queryY2));
       customMsg = "";
     }
+  }
+  
+    if(countMode){
+      if(!firstQueryPoint){
+        firstQueryPoint = true;
+        secQueryPoint = false;
+        queryX1 = mouseX;
+        queryY1 = mouseY;
+      }else{
+        firstQueryPoint = false;
+        secQueryPoint = true;
+        queryX2 = mouseX;
+        queryY2 = mouseY;
+        tree.queryEndPoint(new Rectangle(queryX1, queryX2, queryY1, queryY2));
+        customMsg = "";
+      }
   }
 }
 
@@ -113,10 +135,14 @@ void keyPressed(){
   }
   if(key == 'i' || key == 'I'){
       insertMode = !insertMode;
+      reportMode = false;
+      countMode = false;
       println("Insert mode: " + insertMode);
   }
   if(key == 'r' || key == 'R'){
+      insertMode = false;
       reportMode = !reportMode;
+      countMode = false;
       resetReport();
       if(reportMode){
         customMsg = "Draw a rectangel from the mouse point";
@@ -126,7 +152,16 @@ void keyPressed(){
       println("Report Mode: "+ reportMode);
   }
   if(key == 'c' || key == 'C'){
+      insertMode = false;
+      reportMode = false;
+      countEnd = 0;
       countMode = !countMode;
+      resetCount();
+      if(countMode){
+        customMsg = "Draw a rectangel from the mouse point";
+      }else{
+        customMsg = "";
+      }
       println("Count Mode:" + countMode);
   }
 }
@@ -139,6 +174,12 @@ void resetReport(){
   }
 }
 
+// process each event on mouse or key pressed
+void resetCount(){
+    firstQueryPoint = false;
+    secQueryPoint = true;
+}
+
 void showStatus(){
   fill(#C68C1E);
   text(customMsg, 30, height - 100);
@@ -147,4 +188,8 @@ void showStatus(){
   text("Insert Mode : " + insertMode, 30, height-60);
   text("Report Mode : " + reportMode, 30, height-40);
   text("Count Mode : " + countMode, 30, height-20);
+  
+  if(countMode){
+    text("End Point counts : " + countEnd, 290, height-20);
+  }
 }
