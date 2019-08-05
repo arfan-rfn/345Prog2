@@ -31,7 +31,7 @@ ArrayList<Rectangle> rectangles = new ArrayList();
 void setup(){
   size(520, 650);
   smooth();
-  drawSegmentsFromFile("./inputFiles/random_segments.in");
+  selectInput("Select a file to process:", "fileSelected");
   showStatus();
   tree = new QuadTree(0, 512, 0, 512, pixels);
   for(Segment seg: segments) {
@@ -40,16 +40,31 @@ void setup(){
   //println("Select default input file or close the window to select default file './doIntersect.in'");
   //println("h = " + rectangles.size());
   //println("rects = " + rectangles);
-  
   //println(tree.root.topRight().getSegment().size());
-} 
+}
 
+void fileSelected(File selection) {
+  println("fileSelected was called");
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+    drawSegmentsFromFile("./inputFiles/random_segments.in");
+  } else {
+    println("User selected " + selection.getAbsolutePath());
+    drawSegmentsFromFile(selection.getAbsolutePath());
+  }
+}
 
 // refresh the window 
-void draw(){
+void draw()  {
   stroke(255);
   fill(255);
   rect(0, 0, 520, 650);
+  
+  //button for select files
+  fill(0);
+  rect(400,550,100,40);
+  fill(#C68C1E);
+  text("SELECT FILE",405,555,100,40);
   
    //draw each segment
   for(Segment seg: segments) {
@@ -84,7 +99,10 @@ void draw(){
 
 // take a mouse event
 void mousePressed(){
-  //println(mouseX + ", " + mouseY);
+  println(mouseX + ", " + mouseY);
+  if(mouseX>=400 && mouseX<500 && mouseY>=550 && mouseY<=590)  {
+       selectInput("Select a file to process:", "fileSelected");
+  }
   
   if(insertMode){
     if(mouseX <= 512 && mouseY <= 512){
