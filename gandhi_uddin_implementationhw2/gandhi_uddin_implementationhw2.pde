@@ -44,7 +44,6 @@ void setup(){
 }
 
 void fileSelected(File selection) {
-  println("fileSelected was called");
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
     drawSegmentsFromFile("./inputFiles/random_segments.in");
