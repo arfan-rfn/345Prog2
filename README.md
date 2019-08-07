@@ -1,6 +1,9 @@
 # Implementation Project 2: Quadtrees
 
-##CSC 345: Analysis of discrete structures
+#CSC 345: Analysis of discrete structures
+
+Team: Arfan Uddin & Mayank Gandhi
+
 
 1. All the files required for the project to successfully compile and execute are in the folder: gandhi_uddin_implementationhw2
 2. By Default, program starts with a selectInput() instruction allowing the user to select the file to extract and plot the points from.
