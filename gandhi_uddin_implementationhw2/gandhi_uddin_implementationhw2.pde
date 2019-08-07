@@ -1,3 +1,4 @@
+
 // Md Arfan Uddin
 // Mayank Gandhi
 // CSc 345
@@ -44,7 +45,6 @@ void setup(){
 }
 
 void fileSelected(File selection) {
-  println("fileSelected was called");
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
     drawSegmentsFromFile("./inputFiles/random_segments.in");
@@ -99,7 +99,6 @@ void draw()  {
 
 // take a mouse event
 void mousePressed(){
-  println(mouseX + ", " + mouseY);
   if(mouseX>=400 && mouseX<500 && mouseY>=550 && mouseY<=590)  {
        selectInput("Select a file to process:", "fileSelected");
   }
@@ -163,7 +162,7 @@ void keyPressed(){
       countMode = false;
       resetReport();
       if(reportMode){
-        customMsg = "Draw a rectangel from the mouse point";
+        customMsg = "Draw a rectangle using the mouse pointer.";
       }else{
         customMsg = "";
       }
@@ -176,7 +175,7 @@ void keyPressed(){
       countMode = !countMode;
       resetCount();
       if(countMode){
-        customMsg = "Draw a rectangel from the mouse point";
+        customMsg = "Draw a rectangle using the mouse pointer.";
       }else{
         customMsg = "";
       }
