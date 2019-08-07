@@ -106,8 +106,14 @@ void mousePressed(){
   if(insertMode){
     if(mouseX <= 512 && mouseY <= 512){
       Segment tempSeg = new Segment(mouseX, mouseX, mouseY);
-      segments.add(tempSeg);
-      tree.insert(tempSeg);
+      if(!segments.contains(tempSeg))  {
+          segments.add(tempSeg);
+          tree.insert(tempSeg);  
+        }
+       else  {
+         println("Warning: The segment already exists");
+       }
+      
     }
   }
   
