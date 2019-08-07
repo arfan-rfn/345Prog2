@@ -1,6 +1,6 @@
 # Implementation Project 2: Quadtrees
 
-#CSC 345: Analysis of discrete structures
+CSC 345: Analysis of discrete structures
 
 Team: Arfan Uddin & Mayank Gandhi
 
